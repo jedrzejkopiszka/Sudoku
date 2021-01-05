@@ -2,6 +2,7 @@ package sudoku.userinterface.logic;
 
 import sudoku.constants.GameState;
 import sudoku.constants.Messages;
+import sudoku.computationlogic.GameLogic;
 import sudoku.problemdomain.IStorage;
 import sudoku.problemdomain.SudokuGame;
 import sudoku.userinterface.IUserInterfaceContract;
@@ -27,7 +28,7 @@ public class ControlLogic implements IUserInterfaceContract.EventListener {
             newGridState[x][y] = input;
 
             gameData = new SudokuGame(
-                    GameLogic.checkForCopletion(newGridState),
+                    GameLogic.checkForCompletion(newGridState),
                     newGridState
             );
             storage.updateGameData(gameData);
@@ -47,7 +48,7 @@ public class ControlLogic implements IUserInterfaceContract.EventListener {
             storage.updateGameData(
                     GameLogic.getNewGame()
             );
-            view.updateBoard(storage.gatGameData());
+            view.updateBoard(storage.getGameData());
         }catch(IOException e){
             view.showError(Messages.ERROR);
         }

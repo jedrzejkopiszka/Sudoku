@@ -2,9 +2,13 @@ package sudoku.computationlogic;
 
 import sudoku.constants.GameState;
 import sudoku.problemdomain.SudokuGame;
+import sudoku.constants.Rows;
+import java.util.*;
+
+import static sudoku.problemdomain.SudokuGame.GRID_BOUNDARY;
 
 public class GameLogic {
-    public static SudokuGame getNewgame(){
+    public static SudokuGame getNewGame(){
         return new SudokuGame(
                 GameState.NEW,
                 GameGenerator.getNewGameGrid()
@@ -16,23 +20,7 @@ public class GameLogic {
         return GameState.COMPLETE;
     }
 
-    private static boolean sudokuIsInvalid(int[][] grid) {
-        if (rowsAreInvalid(grid)) return true;
-        if (columnsAreInvalid(grid)) return true;
-        if (sqauresAreInvalid(grid)) return true;
-        else return false;
-    }
-
-    private static boolean sqauresAreInvalid(int[][] grid) {
-        if (rowOfSquareIsInvalid(Rows.TOP, grid)) reutrn true;
-        if (rowOfSquareIsInvalid(Rows.MIDDLE, grid)) reutrn true;
-        if (rowOfSquareIsInvalid(Rows.BOTTOM, grid)) reutrn true;
-        return false;
-    }
-
-    //1:17:32
-
-    private static boolean tilesAreNotFilled(int[][] grid) {
+    public static boolean tilesAreNotFilled(int[][] grid) {
         for (int xIndex = 0; xIndex < GRID_BOUNDARY; xIndex++){
             for (int yIndex = 0; yIndex < GRID_BOUNDARY; yIndex++){
                 if (grid[xIndex][yIndex] == 0) return true;
@@ -41,4 +29,95 @@ public class GameLogic {
         return false;
     }
 
+    public static boolean sudokuIsInvalid(int[][] grid) {
+        if (rowsAreInvalid(grid)) return true;
+        if (columnsAreInvalid(grid)) return true;
+        if (sqauresAreInvalid(grid)) return true;
+        else return false;
+    }
+
+    private static boolean sqauresAreInvalid(int[][] grid) {
+        if (rowOfSquareIsInvalid(Rows.TOP, grid)) return true;
+        if (rowOfSquareIsInvalid(Rows.MIDDLE, grid)) return true;
+        if (rowOfSquareIsInvalid(Rows.BOTTOM, grid)) return true;
+        return false;
+    }
+
+    private static boolean rowOfSquareIsInvalid(Rows value, int[][] grid){
+        switch(value) {
+            case TOP:
+                if (sqareIsInvalid(0, 0, grid)) return true;
+                if (sqareIsInvalid(0, 3, grid)) return true;
+                if (sqareIsInvalid(0, 6, grid)) return true;
+                return false;
+
+            case MIDDLE:
+                if (sqareIsInvalid(3, 0, grid)) return true;
+                if (sqareIsInvalid(3, 3, grid)) return true;
+                if (sqareIsInvalid(3, 6, grid)) return true;
+                return false;
+
+            case BOTTOM:
+                if (sqareIsInvalid(6, 0, grid)) return true;
+                if (sqareIsInvalid(6, 3, grid)) return true;
+                if (sqareIsInvalid(6, 6, grid)) return true;
+                return false;
+
+            default:
+                return false;
+        }
+    }
+    private static boolean sqareIsInvalid(int xIndex, int yIndex, int[][] grid) {
+        int yIndexEnd = yIndex + 3;
+        int xIndexEnd = xIndex + 3;
+
+        List<Integer> square = new ArrayList<>();
+
+        while (yIndex < yIndexEnd){
+            while (xIndex < xIndexEnd){
+                square.add(
+                        grid[xIndex][yIndex]
+                );
+                xIndex++;
+            }
+            xIndex -= 3;
+
+            yIndex++;
+        }
+        if (collectionHasRepeats(square)) return true;
+        return false;
+    }
+
+    private static boolean columnsAreInvalid(int[][] grid) {
+        for (int xIndex = 0; xIndex < GRID_BOUNDARY; xIndex++){
+            List<Integer> row = new ArrayList<>();
+            for(int yIndex = 0; yIndex < GRID_BOUNDARY; yIndex++){
+                row.add(grid[xIndex][yIndex]);
+            }
+
+            if (collectionHasRepeats(row)) return true;
+        }
+
+        return false;
+    }
+
+    private static boolean rowsAreInvalid(int[][] grid) {
+        for (int yIndex = 0; yIndex < GRID_BOUNDARY; yIndex++){
+            List<Integer> row = new ArrayList<>();
+            for(int xIndex = 0; xIndex < GRID_BOUNDARY; xIndex++){
+                row.add(grid[xIndex][yIndex]);
+            }
+
+            if (collectionHasRepeats(row)) return true;
+        }
+
+        return false;
+    }
+
+    public static boolean collectionHasRepeats(List<Integer> collection) {
+        for ( int index =1; index <= GRID_BOUNDARY; index++){
+            if (Collections.frequency(collection, index) > 1) return true;
+        }
+        return false;
+    }
 }

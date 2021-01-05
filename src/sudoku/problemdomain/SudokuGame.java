@@ -1,6 +1,7 @@
 package sudoku.problemdomain;
 
 import sudoku.constants.GameState;
+import sudoku.computationlogic.SudokuUtilities;
 import java.io.Serializable;
 
 public class SudokuGame implements Serializable {

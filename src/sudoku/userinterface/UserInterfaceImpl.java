@@ -1,21 +1,28 @@
 package sudoku.userinterface;
-
-import com.sun.javafx.scene.BoundsAccessor;
+import javafx.geometry.Pos;
+import sudoku.constants.GameState;
+import sudoku.problemdomain.Coordinates;
+import sudoku.problemdomain.SudokuGame;
+import javafx.scene.Scene;
 import javafx.event.EventHandler;
+import javafx.scene.Group;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Background;
-import sudoku.constants.GameState;
-import sudoku.problemdomain.Coordinates;
-import sudoku.problemdomain.SudokuGame;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import javafx.scene.control.TextField;
 
 import java.awt.*;
 import java.util.HashMap;
 
 public class UserInterfaceImpl implements IUserInterfaceContract.View,
-        EventHandler<KeyEvent>{
+        EventHandler<KeyEvent> {
 
     private final Stage stage;
     private final Group root;
@@ -24,8 +31,8 @@ public class UserInterfaceImpl implements IUserInterfaceContract.View,
 
     private IUserInterfaceContract.EventListener listener;
 
-    private static final WINDOW_Y = 732;
-    private static final WINDOW_X = 732;
+    private static final double WINDOW_Y = 732;
+    private static final double WINDOW_X = 732;
     private static final double BOARD_PADDING = 50;
     private static final double BOARD_X_AND_Y = 576;
 
@@ -103,7 +110,7 @@ public class UserInterfaceImpl implements IUserInterfaceContract.View,
     private void drawTitle(Group root) {
         Text title = new Text(235, 690, SUDOKU);
         title.setFill(Color.WHITE);
-        FONT titleFont = new Font(43);
+        Font titleFont = new Font(43);
         title.setFont(titleFont);
 
         root.getChildren().add(title);
@@ -181,7 +188,7 @@ public class UserInterfaceImpl implements IUserInterfaceContract.View,
     @Override
     public void updateBoard(SudokuGame game) {
         for (int xIndex = 0; xIndex < 9; xIndex++){
-            for (int yIndex = 0; yIndex < 9; yindex++){
+            for (int yIndex = 0; yIndex < 9; yIndex++){
                 TextField tile = textFieldCoordinates.get(new Coordinates(xIndex, yIndex));
 
                 String value = Integer.toString(
@@ -208,7 +215,7 @@ public class UserInterfaceImpl implements IUserInterfaceContract.View,
     }
 
     @Override
-    public void showDialog(String Message) {
+    public void showDialog(String message) {
         Alert dialog = new Alert(Alert.AlertType.CONFIRMATION, message, ButtonType.OK);
         dialog.showAndWait();
 

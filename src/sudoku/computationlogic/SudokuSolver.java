@@ -1,6 +1,7 @@
 package sudoku.computationlogic;
 
 import sudoku.problemdomain.Coordinates;
+import static sudoku.problemdomain.SudokuGame.GRID_BOUNDARY;
 
 public class SudokuSolver {
     public static boolean puzzleIsSolvable(int [][] puzzle){
@@ -24,17 +25,18 @@ public class SudokuSolver {
                     input++;
                 } else {
                     index++;
-                    if (index == 39) return true;
+                    if (index == 39){
+                        return true;
+                    }
                     input = 10;
                 }
             }
         }
         return false;
-
     }
 
     private static Coordinates[] typeWriterEnumerate(int[][] puzzle) {
-        Coordinates emptyCells = new Coordiantes[40];
+        Coordinates[] emptyCells = new Coordinates[40];
         int iterator = 0;
         for (int y = 0; y < GRID_BOUNDARY; y++){
             for (int x = 0; x < GRID_BOUNDARY; x++){
@@ -46,7 +48,7 @@ public class SudokuSolver {
                     }
                 }
             }
-            return emptyCells;
-        }
+        return emptyCells;
     }
 }
+

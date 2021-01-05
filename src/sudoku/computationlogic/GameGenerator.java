@@ -5,6 +5,9 @@ import sudoku.problemdomain.SudokuGame;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.List;
+
+import static sudoku.problemdomain.SudokuGame.GRID_BOUNDARY;
 
 public class GameGenerator {
     public static int[][] getNewGameGrid(){
@@ -12,7 +15,7 @@ public class GameGenerator {
     }
 
     private static int[][] unsolveGame(int[][] solvedGame){
-        Random random = new Random()(System.currentTimeMillis());
+        Random random = new Random(System.currentTimeMillis());
         boolean solvable = false;
 
         int[][] solvableArray = new int[GRID_BOUNDARY][GRID_BOUNDARY];
@@ -47,7 +50,7 @@ public class GameGenerator {
             int allocations = 0;
             int interrupt = 0;
 
-            LIST<Coordinates> allocTracker = new ArrayList<>();
+            List<Coordinates> allocTracker = new ArrayList<>();
 
             int attempts = 0;
             while (allocations < GRID_BOUNDARY) {
@@ -68,7 +71,7 @@ public class GameGenerator {
                     }
                 }
                 int xCoordinate = random.nextInt(GRID_BOUNDARY);
-                int yCoordiante = random.nextInt(GRID_BOUDNARY);
+                int yCoordiante = random.nextInt(GRID_BOUNDARY);
 
                 if (newGrid[xCoordinate][yCoordiante] == 0) {
                     newGrid[xCoordinate][yCoordiante] = value;

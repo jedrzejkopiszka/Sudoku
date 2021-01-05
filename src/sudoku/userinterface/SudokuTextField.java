@@ -1,5 +1,5 @@
 package sudoku.userinterface;
-
+import javafx.scene.control.TextField;
 import java.awt.*;
 import java.util.Locale;
 
@@ -12,11 +12,10 @@ public class SudokuTextField extends TextField {
         this.y = y;
     }
 
-
     public int getY() {
+
         return y;
     }
-
 
     public int getX() {
         return x;
